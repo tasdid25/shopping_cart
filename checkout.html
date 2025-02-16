@@ -13,7 +13,13 @@
         <table class="table">
             <tbody id="checkout-items"></tbody>
         </table>
-        <p>Total: <span id="checkout-total"></span></p>
+        <p>Subtotal: <span id="checkout-total"></span></p>
+        <div class="mb-3">
+            <input type="text" id="promo-code" class="form-control" placeholder="Enter promo code">
+            <button id="apply-promo" class="btn btn-secondary mt-2">Apply Promo</button>
+        </div>
+        <p>Discount: <span id="discount-amount">$0.00</span></p>
+        <p>Final Total: <span id="final-total"></span></p>
         <button id="place-order" class="btn btn-primary">Place Order</button>
     </div>
     <script src="js/storage.js"></script>

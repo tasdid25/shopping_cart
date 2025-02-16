@@ -1,20 +1,32 @@
+// Updated checkout.js with promo code validation and recalculations
+
 document.addEventListener("DOMContentLoaded", () => {
     const checkoutTable = document.getElementById("checkout-items");
     const checkoutTotal = document.getElementById("checkout-total");
-    let cart = getCart(); // Get cart items from localStorage
+    const promoInput = document.getElementById("promo-code");
+    const applyPromoBtn = document.getElementById("apply-promo");
+    const discountDisplay = document.getElementById("discount-amount");
+    const finalTotalDisplay = document.getElementById("final-total");
+    let cart = getCart();
+    let discount = 0;
+    let appliedPromo = null;
 
-    // Function to render the cart items on the checkout page
+    function calculateTotal() {
+        let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        discountDisplay.innerText = `$${discount.toFixed(2)}`;
+        finalTotalDisplay.innerText = `$${(total - discount).toFixed(2)}`;
+        checkoutTotal.innerText = `$${total.toFixed(2)}`;
+    }
+
     function renderCheckout() {
-        checkoutTable.innerHTML = ""; // Clear previous items
-        let total = 0;
-
+        checkoutTable.innerHTML = "";
         if (cart.length === 0) {
             checkoutTable.innerHTML = "<tr><td colspan='4'>Your cart is empty.</td></tr>";
             checkoutTotal.innerText = "$0.00";
+            discountDisplay.innerText = "$0.00";
+            finalTotalDisplay.innerText = "$0.00";
             return;
         }
-
-        // Render each item in the cart
         cart.forEach(item => {
             let row = document.createElement("tr");
             row.innerHTML = `
@@ -24,29 +36,44 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>$${(item.price * item.quantity).toFixed(2)}</td>
             `;
             checkoutTable.appendChild(row);
-            total += item.price * item.quantity; // Calculate the total
         });
-
-        // Display the total amount in the checkout
-        checkoutTotal.innerText = `$${total.toFixed(2)}`;
+        calculateTotal();
     }
 
-    // Handle the Place Order button click
+    applyPromoBtn.addEventListener("click", () => {
+        const promoCode = promoInput.value.trim().toLowerCase();
+        if (appliedPromo) {
+            alert("A promo code has already been applied.");
+            return;
+        }
+        let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        if (promoCode === "ostad10") {
+            discount = total * 0.10;
+            appliedPromo = "ostad10";
+        } else if (promoCode === "ostad5") {
+            discount = total * 0.05;
+            appliedPromo = "ostad5";
+        } else {
+            alert("Invalid promo code. Please try again.");
+            return;
+        }
+        calculateTotal();
+        alert("Promo code applied successfully!");
+    });
+
     document.getElementById("place-order").addEventListener("click", () => {
         if (cart.length === 0) {
             alert("Your cart is empty. Please add items to your cart before placing an order.");
             return;
         }
-
         alert("Order placed successfully!");
-        localStorage.removeItem("cart"); // Clear the cart from localStorage
-        window.location.href = "index.html"; // Redirect to homepage
+        localStorage.removeItem("cart");
+        window.location.href = "index.html";
     });
 
-    renderCheckout(); // Render the cart items and total when the page loads
+    renderCheckout();
 });
 
-// Helper functions for cart storage (localStorage in this case)
 function getCart() {
-    return JSON.parse(localStorage.getItem("cart")) || []; // Retrieve cart from localStorage
+    return JSON.parse(localStorage.getItem("cart")) || [];
 }
