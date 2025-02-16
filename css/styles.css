@@ -1,0 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.card-body .add-to-cart {
+    margin-top: auto; /* Push the button to the bottom */
+}

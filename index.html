@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Products</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Shopping Cart</a>
+            <a href="cart.html" class="btn btn-light position-relative">
+                <!-- Cart Icon -->
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" class="badge bg-danger position-absolute top-0 start-100 translate-middle">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Products</h2>
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4" id="product-list">
+            <!-- Products will be injected here -->
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>
